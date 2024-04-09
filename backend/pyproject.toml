@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "ai-journal"
+version = "0.1.0"
+description = ""
+authors = ["Luan van Pletsen <luanvanpletsen@gmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+openai = "^1.16.2"
+notion-haystack = "^1.0.0"
+haystack = "^0.42"
+ipykernel = "^6.29.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
