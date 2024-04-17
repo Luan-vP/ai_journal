@@ -13,9 +13,10 @@ system_prompt = """
     You are a psychotherapist who is helping a client explore their emotions through journalling."""
 
 
-class WritingPrompt(dspy.Signature):
-    "topic, context -> writing_prompt"
-    topic = dspy.InputField(
+class GenerateWritingPrompt(dspy.Signature):
+    """topic, context -> writing_prompt"""
+
+    writing_topic = dspy.InputField(
         "The subject the client would like to explore in their journal."
     )
     context = dspy.InputField(
@@ -24,3 +25,19 @@ class WritingPrompt(dspy.Signature):
     writing_prompt = dspy.OutputField(
         "A writing prompt that will help the client explore their emotions in depth."
     )
+
+
+class RAG(dspy.Module):
+    def __init__(self, num_passages=3):
+        super().__init__()
+
+        self.retrieve = dspy.Retrieve(k=num_passages)
+        self.generate_writing_prompt = dspy.ChainOfThought(GenerateWritingPrompt)
+
+    def forward(self, writing_topic):
+        context = self.retrieve(writing_topic).passages
+        writing_prompt = self.generate_writing_prompt(
+            context=context, writing_topic=writing_topic
+        )
+        # TODO change this output signature
+        return dspy.Prediction(context=context, answer=writing_prompt.answer)
