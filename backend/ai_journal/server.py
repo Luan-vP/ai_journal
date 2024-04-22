@@ -3,6 +3,9 @@ import fastapi
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
+# TODO very danger
+from ai_journal import storage
+
 app = fastapi.FastAPI()
 
 app.add_middleware(
@@ -49,4 +52,13 @@ def get_post_analysis(entry: JournalEntry):
     one_point_to_observe_over_the_next_week = (
         response.one_point_to_observe_over_the_next_week
     )
+    filename = storage.write_to_new_file(
+        entry.journal_entry + "Insight:" + one_point_to_observe_over_the_next_week
+    )
+    print(f"New entry written to {filename}")
     return {"message": one_point_to_observe_over_the_next_week}
+
+
+@app.get("/dump")
+def dump():
+    return {"message": storage.read_user_data()}
