@@ -34,7 +34,9 @@ def get_writing_prompt(therapy_topic: str):
     return {"message": effective_journalling_prompt}
 
 
-create_post_analysis = dspy.Predict("journal_entry -> therapeutic_insight")
+create_post_analysis = dspy.Predict(
+    "journal_entry -> one_point_to_observe_over_the_next_week"
+)
 
 
 class JournalEntry(BaseModel):
@@ -44,5 +46,7 @@ class JournalEntry(BaseModel):
 @app.post("/post_analysis")
 def get_post_analysis(entry: JournalEntry):
     response = create_post_analysis(journal_entry=entry.journal_entry)
-    therapeutic_insight = response.therapeutic_insight
-    return {"message": therapeutic_insight}
+    one_point_to_observe_over_the_next_week = (
+        response.one_point_to_observe_over_the_next_week
+    )
+    return {"message": one_point_to_observe_over_the_next_week}

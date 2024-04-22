@@ -1,7 +1,10 @@
 <script>
     import InsightSearch from './InsightSearch.svelte';
-  </script>
+    import JournallingEntry from './JournallingEntry.svelte';
+</script>
 
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
+<h1>Therapy App</h1>
+What would you like to write about?
 <InsightSearch />
+Write your journal entry here:
+<JournallingEntry />

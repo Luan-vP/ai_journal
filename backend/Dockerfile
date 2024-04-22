@@ -7,14 +7,25 @@ RUN apt-get update && apt-get install -y \
     gcc \
     g++
 
+    
+# Set the environment variable to prevent Python from writing pyc files
+ENV PYTHONDONTWRITEBYTECODE 1
+
+# Set the environment variable to prevent Python from buffering stdout and stderr
+ENV PYTHONUNBUFFERED 1
+    
 # Set the working directory in the container
 WORKDIR /app
 
+# Copy the Poetry files to the container
+COPY pyproject.toml poetry.lock ./
+
+# Install the dependencies
+RUN pip install --upgrade pip && pip install poetry
+RUN poetry install --no-root
+
 # Copy the app source code to the container
 COPY . .
-
-# Install Poetry
-RUN pip install poetry
 
 # Use Poetry to install the Python dependencies
 RUN poetry install
