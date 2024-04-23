@@ -23,9 +23,14 @@
         sendRequest();
       }
     }
+
+    function autoResize(event) {
+        event.target.style.height = 'inherit';
+        event.target.style.height = `${event.target.scrollHeight}px`;
+    }
   </script>
 
-<div>
-  <input type="text" bind:value={inputText} on:keydown={handleKeydown} placeholder="Enter text and press Enter" />
-    <p>Insight:{therapeutic_insight}</p>
+<div class="flex justify-center">
+  <textarea class="w-2/3 px-3 py-2 border border-gray-300 rounded shadow-inner" bind:value={inputText} on:keydown={handleKeydown} on:input={autoResize} placeholder="Enter text and press Enter" />
 </div>
+<p>Insight:{therapeutic_insight}</p>
