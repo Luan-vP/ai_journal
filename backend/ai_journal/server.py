@@ -1,3 +1,5 @@
+import os
+
 import dspy
 import fastapi
 from fastapi.middleware.cors import CORSMiddleware
@@ -16,9 +18,13 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
+USE_OLLAMA = os.getenv("USE_OLLAMA", False)
 
-turbo = dspy.OpenAI("gpt-3.5-turbo")
-dspy.settings.configure(lm=turbo)
+if USE_OLLAMA in ["True", "true", "1"]:
+    lm = dspy.OllamaLocal(model="llama3", base_url="http://host.docker.internal:11434")
+else:
+    lm = dspy.OpenAI("gpt-3.5-turbo")
+dspy.settings.configure(lm=lm)
 
 
 @app.get("/")
