@@ -1,7 +1,9 @@
-<script>
-    import { onMount } from 'svelte';
-    let inputText = '';
-    let therapeutic_insight = '';
+<script lang='ts'>
+  import { onMount } from 'svelte';
+
+  let inputText = '';
+  let therapeutic_insight = '';
+
   
     async function sendRequest() {
         if (inputText) {
@@ -28,9 +30,11 @@
         event.target.style.height = 'inherit';
         event.target.style.height = `${event.target.scrollHeight}px`;
     }
-  </script>
+</script>
 
 <div class="flex justify-center">
   <textarea class="w-2/3 px-3 py-2 border border-gray-300 rounded shadow-inner" bind:value={inputText} on:keydown={handleKeydown} on:input={autoResize} placeholder="Enter text and press Enter" />
+  {#if therapeutic_insight}
+    <p>Insight: {therapeutic_insight}</p>
+  {/if}
 </div>
-<p>Insight:{therapeutic_insight}</p>
