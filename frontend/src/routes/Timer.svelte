@@ -47,25 +47,6 @@
       isPaused = false;
     }
   
-    function handlePause() {
-      offset.set(count / countdown);
-      rotation.set((count / countdown) * 360);
-      clearInterval(interval);
-      isPaused = true;
-    }
-  
-    function handleReset() {
-      clearInterval(interval);
-      isResetting = true;
-      isPaused = false;
-      Promise.all([offset.set(1), rotation.set(360)]).then(() => {
-        isResetting = false;
-        now = Date.now();
-        end = now + countdown * 1000;
-        interval = setInterval(updateTimer, 1000);
-      });
-    }
-  
     function padValue(value, length = 2, char = '0') {
       const { length: currentLength } = value.toString();
       if (currentLength >= length) return value.toString();
@@ -116,45 +97,6 @@
         </text>
       </g>
     </svg>
-  
-    <div in:fly={{ y: -10, delay: 120 }}>
-      <button on:click={handleNew}>New timer</button>
-  
-      {#if isPaused}
-        <button disabled={isResetting || count === 0} on:click={handleStart}>
-          <span class="visually-hidden">Start timer</span>
-  
-          <svg viewBox="-50 -50 100 100" width="30" height="30">
-            <g
-              fill="none"
-              stroke="currentColor"
-              stroke-width="20"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M -25 -40 l 60 40 -60 40z" />
-            </g>
-          </svg>
-        </button>
-      {:else}
-        <button disabled={isResetting || count === 0} on:click={handlePause}>
-          <span class="visually-hidden">Pause timer</span>
-          <svg viewBox="-50 -50 100 100" width="30" height="30">
-            <g
-              fill="none"
-              stroke="currentColor"
-              stroke-width="20"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <path d="M -25 -30 v 60 m 50 0 v -60" />
-            </g>
-          </svg>
-        </button>
-      {/if}
-  
-      <button on:click={handleReset}>Reset timer</button>
-    </div>
   </main>
   
   <style>
