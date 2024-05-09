@@ -6,3 +6,10 @@ flowchart TD
     C ---> D["Write"]
     D --> E{{"Submit + Upload"}}
 ```
+
+Todos:
+- [ ] Add a timer
+- [ ] Add EmotionWheel UI selector
+- [ ] Mac Application Wrapper
+- [ ] Update UI styling 
+- [ ] Impliment RAG for insights
