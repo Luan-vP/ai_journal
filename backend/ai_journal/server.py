@@ -1,4 +1,5 @@
 import os
+from logging import DEBUG, Logger
 
 import dspy
 import fastapi
@@ -7,6 +8,8 @@ from pydantic import BaseModel
 
 # TODO very danger
 from ai_journal import storage
+
+logger = Logger(__file__, DEBUG)
 
 app = fastapi.FastAPI()
 
@@ -63,6 +66,12 @@ def get_post_analysis(entry: JournalEntry):
     )
     print(f"New entry written to {filename}")
     return {"message": one_point_to_observe_over_the_next_week}
+
+
+@app.post("/save")
+def save_entry_to_file(entry: JournalEntry):
+    filename = storage.write_to_new_file(entry.journal_entry)
+    logger.debug(f"New entry written to {filename}")
 
 
 @app.get("/dump")

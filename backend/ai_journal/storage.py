@@ -18,7 +18,7 @@ def write_to_new_file(content: str):
     # new timestamp for the file name
     import datetime
 
-    new_file_name = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S")
+    new_file_name = datetime.datetime.now().strftime("%Y-%m-%d-%H-%M-%S") + ".md"
 
     new_file_path = user_data_location / new_file_name
     with open(new_file_path, "w") as file:
