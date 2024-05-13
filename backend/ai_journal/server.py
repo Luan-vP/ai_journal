@@ -74,6 +74,11 @@ def save_entry_to_file(entry: JournalEntry):
     logger.debug(f"New entry written to {filename}")
 
 
-@app.get("/dump")
+class UserData(BaseModel):
+    data: dict[str, str]
+
+
+# TODO very danger
+@app.get("/dump", response_model=UserData)
 def dump():
-    return {"message": storage.read_user_data()}
+    return {"data": storage.read_user_data()}
