@@ -20,6 +20,8 @@ WORKDIR /app
 # Copy the Poetry files to the container
 COPY pyproject.toml poetry.lock ./
 
+ENV POETRY_VIRTUALENVS_CREATE=false
+
 # Install the dependencies
 RUN pip install --upgrade pip && pip install poetry
 RUN poetry install --no-root

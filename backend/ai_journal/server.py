@@ -46,31 +46,27 @@ def get_writing_prompt(therapy_topic: str):
     return {"message": effective_journalling_prompt}
 
 
-create_post_analysis = dspy.Predict(
-    "journal_entry -> one_point_to_observe_over_the_next_week"
-)
+create_post_analysis = dspy.Predict("journal_entry -> therapeutic_observation")
 
 
-class JournalEntry(BaseModel):
-    journal_entry: str
+class HumanInput(BaseModel):
+    text_input: str
 
 
 @app.post("/post_analysis")
-def get_post_analysis(entry: JournalEntry):
-    response = create_post_analysis(journal_entry=entry.journal_entry)
-    one_point_to_observe_over_the_next_week = (
-        response.one_point_to_observe_over_the_next_week
-    )
+def get_post_analysis(input: HumanInput):
+    response = create_post_analysis(journal_entry=input.text_input)
+    therapeutic_observation = response.therapeutic_observation
     filename = storage.write_to_new_file(
-        entry.journal_entry + "Insight:" + one_point_to_observe_over_the_next_week
+        input.text_input + "Insight:" + therapeutic_observation
     )
     print(f"New entry written to {filename}")
-    return {"message": one_point_to_observe_over_the_next_week}
+    return {"message": therapeutic_observation}
 
 
 @app.post("/save")
-def save_entry_to_file(entry: JournalEntry):
-    filename = storage.write_to_new_file(entry.journal_entry)
+def save_entry_to_file(input: HumanInput):
+    filename = storage.write_to_new_file(input.text_input)
     logger.debug(f"New entry written to {filename}")
 
 

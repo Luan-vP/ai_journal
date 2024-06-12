@@ -1,11 +1,13 @@
 from pathlib import Path
+
 import weaviate
 
 user_data_location = Path(__file__).resolve().parent.parent / "user_data"
 print(user_data_location)
 user_data_location.mkdir(exist_ok=True)
 
-weaaviate_client = weaviate.connect_to_local()
+example_data_location = Path(__file__).resolve().parent.parent / "data"
+
 
 def read_user_data() -> dict:
     user_data = {}
