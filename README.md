@@ -11,8 +11,9 @@ Todos:
 - [x] Add a timer
 - [ ] Add EmotionWheel UI selector
 - [ ] Update UI styles
-- [ ] Impliment weaviate datastore and tokenisation
+- [x] Impliment weaviate datastore and tokenisation
 - [ ] Impliment RAG for insights
+- [ ] Tarot prompt
 
 ## Architecture
 
