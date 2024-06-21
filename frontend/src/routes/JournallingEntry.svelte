@@ -21,7 +21,7 @@
     }
   
     function handleKeydown(event) {
-      if (event.key === 'Enter' && !event.shiftKey) {
+      if (event.key === 'Enter') {
         sendRequest();
       }
     }
@@ -33,9 +33,13 @@
 </script>
 
 <div class="flex justify-center">
-  <textarea class="w-2/3 px-3 py-2 border border-gray-300 rounded shadow-inner" bind:value={inputText} on:keydown={handleKeydown} on:input={autoResize} placeholder="Enter text and press Enter" />
-  {#if therapeutic_insight}
-    <br/>
-    <p>Insight: {therapeutic_insight}</p>
+  {#if !therapeutic_insight}
+  <div>
+    <textarea class="w-2/3 px-3 py-2 border border-gray-300 rounded shadow-inner" bind:value={inputText} on:keydown={handleKeydown} on:input={autoResize} placeholder="Enter text and press Enter" />
+  </div>
+  {:else}
+  <div>
+    <p>{therapeutic_insight}</p>
+  </div>
   {/if}
 </div>
