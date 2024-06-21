@@ -12,8 +12,6 @@
         Therapy App
     </h1>
 
-    <p class="text-lg mb-2 justify-center">What would you like to write about?</p>
-
     <div class="mb-4 justify-center">
         <InsightSearch />
     </div>
