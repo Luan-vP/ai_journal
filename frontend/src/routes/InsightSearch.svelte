@@ -19,8 +19,11 @@
     }
   </script>
   
-  <div class="flex justify-center">
-    <input class="w-2/3 px-3 py-2 border border-gray-300 rounded shadow-inner" type="text" bind:value={inputText} on:keydown={handleKeydown} placeholder="Enter text and press Enter" />
-    <br/>
-    <p class="mt-2">{writingPrompt}</p>
+  <div class="flex-col justify-center">
+    <div class="w-2/3">
+      <input class="px-3 py-2 border border-gray-300 rounded shadow-inner" type="text" bind:value={inputText} on:keydown={handleKeydown} placeholder="Enter text and press Enter" />
+    </div>
+    <div>
+      <p class="mt-2">{writingPrompt}</p>
+    </div>
   </div>
