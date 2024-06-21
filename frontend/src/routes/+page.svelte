@@ -22,8 +22,6 @@
         {/if}
     </div>
 
-    <p class="text-lg mb-2 justify-center">Write your journal entry here:</p>
-
     <div class="mb-4 justify-center">
         <JournallingEntry />
     </div>

@@ -32,8 +32,11 @@
     }
 </script>
 
-<div class="flex justify-center">
+<div class="flex-col justify-center">
   {#if !therapeutic_insight}
+  <div>
+    <p class="text-lg mb-2 justify-center">Write your journal entry here:</p>
+  </div>
   <div>
     <textarea class="w-2/3 px-3 py-2 border border-gray-300 rounded shadow-inner" bind:value={inputText} on:keydown={handleKeydown} on:input={autoResize} placeholder="Enter text and press Enter" />
   </div>
