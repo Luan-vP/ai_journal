@@ -12,7 +12,7 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ journal_entry: inputText })
+                body: JSON.stringify({ text_input: inputText })
             });
             const data = await response.json();
             console.log(data);
@@ -21,7 +21,7 @@
     }
   
     function handleKeydown(event) {
-      if (event.key === 'Enter') {
+      if (event.key === 'Enter' && !event.shiftKey) {
         sendRequest();
       }
     }
