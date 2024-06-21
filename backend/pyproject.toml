@@ -19,6 +19,7 @@ poetry-plugin-export = "^1.7.1"
 langchain = "^0.2.1"
 langchain-community = "^0.2.1"
 weaviate-client = "4.6.3"
+rag-router = {git = "https://github.com/Luan-vP/rag_router"}
 
 
 [build-system]
