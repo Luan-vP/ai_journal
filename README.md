@@ -7,23 +7,18 @@ flowchart TD
     D --> E{{"Submit + Upload"}}
 ```
 
-Todos:
-- [x] Add a timer
-- [ ] Add EmotionWheel UI selector
-- [ ] Update UI styles
-- [x] Impliment weaviate datastore and tokenisation
-- [ ] Impliment RAG for insights
-- [ ] Tarot prompt
-
 ## Architecture
 
 ### Backend
+
 FastAPI server
 Ollama + llama3:7b + dspy for LLM pipelines
 
-#### Data 
+#### Data
+
 Weaviate
 usage +500B/user/day = +182kb / user / year (without embeddings)
 
 ### Frontend
+
 Svelte
