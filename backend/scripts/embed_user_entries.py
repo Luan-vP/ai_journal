@@ -45,34 +45,36 @@ def split_into_sentences(text):
 
 
 def read_and_chunk_files(main_folder_path):
-    """Read .md files from the folder path, split into sentences, and chunk every 5 sentences."""
+    """Recursively read .md files from the folder path and its subfolders, split into sentences, and chunk every 5 sentences."""
     journal_chunks = []
     data_folder_path = Path(main_folder_path).resolve()
     print(data_folder_path)
-    for filename in data_folder_path.iterdir():
+    for filename in data_folder_path.rglob("*.md"):
         print(filename.name)
-        if ".md" in filename.name:
-            print(f"Reading {filename.name}...")
-            with open(filename, "r", encoding="utf-8") as file:
-                content = file.read()
-                sentences = split_into_sentences(content)
-                sentence_chunks = chunk_list(sentences, 5)
-                sentence_chunks = [" ".join(chunk) for chunk in sentence_chunks]
-                journal_chunks.extend(sentence_chunks)
+        print(f"Reading {filename.name}...")
+        with open(filename, "r", encoding="utf-8") as file:
+            content = file.read()
+            sentences = split_into_sentences(content)
+            sentence_chunks = chunk_list(sentences, 5)
+            sentence_chunks = [" ".join(chunk) for chunk in sentence_chunks]
+            journal_chunks.extend(sentence_chunks)
     return journal_chunks
 
+if __name__ == "__main__":
 
-# Example usage
-journal_chunks = read_and_chunk_files(example_data_location)
+    data_location = Path('/app/user_data').resolve()
 
-len(journal_chunks)
+    # Example usage
+    journal_chunks = read_and_chunk_files(data_location)
 
-journal_chunks[0]
+    len(journal_chunks)
+
+    journal_chunks[0]
 
 
-journal = client.collections.get("WeaviateJournalChunk")
+    journal = client.collections.get("WeaviateJournalChunk")
 
-for idx, journal_chunk in enumerate(journal_chunks):
-    upload = journal.data.insert(properties={"content": journal_chunk})
+    for idx, journal_chunk in enumerate(journal_chunks):
+        upload = journal.data.insert(properties={"content": journal_chunk})
 
-print(f"Uploaded {idx} journal chunks.")
+    print(f"Uploaded {idx} journal chunks.")
