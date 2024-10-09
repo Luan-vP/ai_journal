@@ -1,5 +1,6 @@
 # Use the official Python image as the base image
-FROM python:3.11-slim
+FROM python:3.12-slim
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /bin/uv
 
 RUN apt-get update && apt-get install -y \
     build-essential \
@@ -7,33 +8,34 @@ RUN apt-get update && apt-get install -y \
     gcc \
     g++
 
-    
-# Set the environment variable to prevent Python from writing pyc files
-ENV PYTHONDONTWRITEBYTECODE 1
-
-# Set the environment variable to prevent Python from buffering stdout and stderr
-ENV PYTHONUNBUFFERED 1
-    
-# Set the working directory in the container
 WORKDIR /app
+    
+# Enable bytecode compilation
+ENV UV_COMPILE_BYTECODE=1
 
-# Copy the Poetry files to the container
-COPY pyproject.toml poetry.lock ./
+# Copy from the cache instead of linking since it's a mounted volume
+ENV UV_LINK_MODE=copy
 
-ENV POETRY_VIRTUALENVS_CREATE=false
+# Install the project's dependencies using the lockfile and settings
+RUN --mount=type=cache,target=/root/.cache/uv \
+    --mount=type=bind,source=uv.lock,target=uv.lock \
+    --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
+    uv sync --frozen --no-install-project --no-dev
 
-# Install the dependencies
-RUN pip install --upgrade pip && pip install poetry
-RUN poetry install --no-root
+# Then, add the rest of the project source code and install it
+# Installing separately from its dependencies allows optimal layer caching
+ADD . /app
+RUN --mount=type=cache,target=/root/.cache/uv \
+    uv sync --frozen --no-dev
 
-# Copy the app source code to the container
-COPY . .
+# Place executables in the environment at the front of the path
+ENV PATH="/app/.venv/bin:$PATH"
 
-# Use Poetry to install the Python dependencies
-RUN poetry install
+# Reset the entrypoint, don't invoke `uv`
+ENTRYPOINT []
 
 # Expose port 8000
 EXPOSE 8000
 
 # Start the FastAPI app
-CMD ["poetry", "run", "uvicorn", "ai_journal.server:app", "--host", "0.0.0.0", "--port", "8000"]
+CMD ["uvicorn", "ai_journal.server:app", "--host", "0.0.0.0", "--port", "8000"]
