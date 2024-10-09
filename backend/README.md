@@ -1,8 +1,6 @@
-TODO: 
-[] Integrate date of journal entry into RAG pipeline
-[] Expand demo dataset with synthetic data
-[] Extract RAG essentials into a template
+# AI Journal - Backend
 
+## Data Flow
 ```mermaid
 flowchart TD
 A["User data input"] --> B["Save to markdown files in docker volume"]
