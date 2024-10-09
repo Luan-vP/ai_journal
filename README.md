@@ -1,10 +1,23 @@
+# AI Journal
+An LLM powered journal to help you better understand your thoughts, and improve them over time.
+
+
 ```mermaid
 flowchart TD
-    A["Hi! What would you like to write about?"]--> B{{"Retrieval"}}
-    B --> C{{"Insight"}}
-    C --> F{{"Display"}}
-    C ---> D["Write"]
-    D --> E{{"Submit + Upload"}}
+    A(["Journalling prompt"])
+    subgraph journalling_step [ ]
+        B[/"User writes an entry"/]
+        B --> |1|C["Collect relevant past entries"]
+        C --> |2|D{"Ask a clarifying question? (continue loop)"}
+        D --> |Yes|E[LLM generated clarifying question]
+        E --> |4|B
+    end
+    D --> |No|EE(["LLM generated insight"])
+
+    A --> B
+    DB[("Database")]
+    DB --> |retrieve entries|C
+    B --> |save entry|DB
 ```
 
 ## Architecture
