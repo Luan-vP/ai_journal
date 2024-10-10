@@ -6,7 +6,8 @@ RUN apt-get update && apt-get install -y \
     build-essential \
     libpq-dev \
     gcc \
-    g++
+    g++ \
+    git
 
 WORKDIR /app
     
