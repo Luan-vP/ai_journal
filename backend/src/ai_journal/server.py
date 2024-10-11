@@ -7,7 +7,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 
 # TODO very danger
-from ai_journal import storage
+from ai_journal import storage, therapy
 
 logger = Logger(__file__, DEBUG)
 
@@ -44,15 +44,12 @@ def read_root():
     return {"Hello": "World"}
 
 
-# TODO unpack these here to uncouple the frontend unpacking from the variable names
-create_prompt = dspy.Predict("therapy_topic -> effective_journalling_prompt")
+
 
 
 @app.get("/writing_prompt")
 def get_writing_prompt(therapy_topic: str):
-    response = create_prompt(therapy_topic=therapy_topic)
-    effective_journalling_prompt = response.effective_journalling_prompt
-    return {"message": effective_journalling_prompt}
+    return {"data": therapy.generate_writing_prompt(therapy_topic)}
 
 
 create_post_analysis = dspy.Predict("journal_entry -> therapeutic_observation")

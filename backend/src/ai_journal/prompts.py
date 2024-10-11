@@ -17,13 +17,13 @@ class GenerateWritingPrompt(dspy.Signature):
     """topic, context -> writing_prompt"""
 
     writing_topic = dspy.InputField(
-        "The subject the client would like to explore in their journal."
+        prompt="The subject the client would like to explore in their journal."
     )
     context = dspy.InputField(
-        "The client's previous journal entries and the conversation so far."
+        prompt="The client's previous journal entries and the conversation so far."
     )
     writing_prompt = dspy.OutputField(
-        "A writing prompt that will help the client explore their emotions in depth."
+        prompt="A writing prompt that will help the client explore their emotions in depth."
     )
 
 
