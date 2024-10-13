@@ -44,25 +44,18 @@ def read_root():
     return {"Hello": "World"}
 
 
-
-
-
 @app.get("/writing_prompt")
 def get_writing_prompt(therapy_topic: str):
     return {"data": therapy.generate_writing_prompt(therapy_topic)}
-
-
-create_post_analysis = dspy.Predict("journal_entry -> therapeutic_observation")
 
 
 class Input(BaseModel):
     text_input: str
 
 
-@app.post("/post_analysis")
-def get_post_analysis(input: Input):
-    response = create_post_analysis(journal_entry=input.text_input)
-    therapeutic_observation = response.therapeutic_observation
+@app.post("/post_writing_analysis")
+def get_post_writing_analysis(input: Input):
+    therapeutic_observation = therapy.generate_post_writing_analysis(input.text_input)
     filename = storage.write_to_new_file(
         input.text_input + "Insight:" + therapeutic_observation
     )
