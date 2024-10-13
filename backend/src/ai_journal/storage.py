@@ -1,6 +1,5 @@
 from pathlib import Path
 
-import weaviate
 
 user_data_location = Path(__file__).resolve().parent.parent / "user_data"
 print(user_data_location)

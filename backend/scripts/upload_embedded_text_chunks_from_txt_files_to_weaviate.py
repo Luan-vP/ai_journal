@@ -1,16 +1,10 @@
-import os
 import re
-import sys
 from pathlib import Path
-from uuid import uuid4
 
 import weaviate
 import weaviate.classes.config as wvcc
-from ai_journal.storage import example_data_location, read_user_data
 from weaviate.classes.config import Configure
-from weaviate.util import get_valid_uuid
 
-import ai_journal
 
 client = weaviate.connect_to_local(host="localhost")
 
