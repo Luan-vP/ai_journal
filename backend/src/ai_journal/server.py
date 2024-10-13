@@ -5,6 +5,7 @@ import dspy
 import fastapi
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
+from rag_router.router import router
 
 # TODO very danger
 from ai_journal import storage, therapy
@@ -23,7 +24,6 @@ app.add_middleware(
 
 # Setup weaviate host for docker
 os.environ["WEAVIATE_HOST"] = "weaviate"
-from rag_router.router import router
 
 # Adds the /generative_search endpoint
 app.include_router(router)
