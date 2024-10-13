@@ -26,5 +26,11 @@ build-backend = "hatchling.build"
 [tool.hatch.build.targets.wheel]
 packages = ["src/ai_journal"]
 
+[tool.uv]
+dev-dependencies = [
+    "pytest-mock>=3.14.0",
+    "pytest>=8.3.3",
+]
+
 [tool.uv.sources]
 rag-router = { git = "https://github.com/Luan-vP/rag_router", rev = "fc5a73c67cc721bd7b7fad91a24e741777cd4ba3" }
