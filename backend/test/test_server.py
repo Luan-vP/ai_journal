@@ -33,7 +33,6 @@ def test_get_post_writing_analysis(text_input, mocker):
     ai_journal.therapy.generate_post_writing_analysis.assert_called_once_with(text_input)
 
 
-
 @pytest.mark.parametrize("text_input", ["This is a test input"])
 def test_save_entry_to_file(text_input, mocker):
     mocker.patch("ai_journal.storage.write_to_new_file")
@@ -42,3 +41,14 @@ def test_save_entry_to_file(text_input, mocker):
 
     assert response.status_code == 200
     ai_journal.storage.write_to_new_file.assert_called_once_with(text_input)
+
+
+def test_get_dump(mocker):
+    mock_return_value = {"mock_json_data": "mock_json_data"}
+    mocker.patch("ai_journal.storage.read_user_data", return_value=mock_return_value)
+
+    response = client.get("/dump")
+
+    assert response.status_code == 200
+    assert response.json() == {"data": mock_return_value}
+    ai_journal.storage.read_user_data.assert_called_once()

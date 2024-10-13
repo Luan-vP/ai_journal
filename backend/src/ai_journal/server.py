@@ -75,5 +75,5 @@ class UserData(BaseModel):
 
 # TODO very danger
 @app.get("/dump", response_model=UserData)
-def dump():
+def get_dump():
     return {"data": storage.read_user_data()}
