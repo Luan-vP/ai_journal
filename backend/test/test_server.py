@@ -31,3 +31,14 @@ def test_get_post_writing_analysis(text_input, mocker):
     assert response.status_code == 200
     assert response.json() == {"message": mocked_return_value}
     ai_journal.therapy.generate_post_writing_analysis.assert_called_once_with(text_input)
+
+
+
+@pytest.mark.parametrize("text_input", ["This is a test input"])
+def test_save_entry_to_file(text_input, mocker):
+    mocker.patch("ai_journal.storage.write_to_new_file")
+
+    response = client.post("/save", json={"text_input": text_input})
+
+    assert response.status_code == 200
+    ai_journal.storage.write_to_new_file.assert_called_once_with(text_input)
