@@ -22,11 +22,11 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-# Setup weaviate host for docker
-os.environ["WEAVIATE_HOST"] = "weaviate"
-
 # Adds the /generative_search endpoint
 app.include_router(router)
+
+# Setup weaviate host for docker
+os.environ["WEAVIATE_HOST"] = "weaviate"
 
 USE_OLLAMA = os.getenv("USE_OLLAMA", False)
 

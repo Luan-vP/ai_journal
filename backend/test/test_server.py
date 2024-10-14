@@ -1,5 +1,7 @@
+from fastapi import FastAPI
 from fastapi.testclient import TestClient
 import pytest
+from rag_router.router import Query
 
 import ai_journal
 
@@ -51,3 +53,10 @@ def test_get_dump(mocker):
     assert response.status_code == 200
     assert response.json() == {"data": mock_return_value}
     ai_journal.storage.read_user_data.assert_called_once()
+
+
+def test_generative_search_endpoint_exists():
+    app: FastAPI = ai_journal.server.app
+    routes = [route.path for route in app.routes]
+    
+    assert "/generative_search" in routes
