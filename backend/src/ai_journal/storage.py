@@ -1,7 +1,8 @@
 from pathlib import Path
 
+import weaviate
 
-user_data_location = Path(__file__).resolve().parent.parent / "user_data"
+user_data_location = Path(__file__).resolve().parents[2] / "local_data"
 print(user_data_location)
 user_data_location.mkdir(exist_ok=True)
 
