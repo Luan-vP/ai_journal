@@ -1,5 +1,6 @@
 import contextlib
 import os
+import uuid
 from pathlib import Path
 
 import weaviate
@@ -44,3 +45,10 @@ def get_weaviate_client():
         yield client
     finally:
         client.close()
+
+def upload_text_to_weaviate_collection(text: str, weaviate_client: weaviate.WeaviateClient) -> uuid.UUID:
+    collection = weaviate_client.collections.get(WEAVIATE_COLLECTION_NAME)
+
+    uuid = collection.data.insert({"text": text})
+
+    return uuid

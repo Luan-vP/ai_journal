@@ -15,7 +15,7 @@ def test_upload_text_to_weaviate_collection(test_weaviate_client):
         # return_metadata=MetadataQuery(distance=True)
     )
 
-    assert len(response.objects == 0)
+    assert len(response.objects) == 0
     
 
     upload_text_to_weaviate_collection("mango is my favourite fruit", test_weaviate_client)
@@ -29,4 +29,4 @@ def test_upload_text_to_weaviate_collection(test_weaviate_client):
         # return_metadata=MetadataQuery(distance=True)
     )
 
-    assert len(response.objects == 1)
+    assert len(response.objects) == 1
