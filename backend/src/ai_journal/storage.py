@@ -1,6 +1,13 @@
+import contextlib
+import os
 from pathlib import Path
 
 import weaviate
+
+WEAVIATE_COLLECTION_NAME = (
+        os.getenv("WEAVIATE_COLLECTION_NAME") or "WeaviateJournalChunks"
+    )
+WEAVIATE_HOST = os.getenv("WEAVIATE_HOST") or "localhost"
 
 user_data_location = Path(__file__).resolve().parents[2] / "local_data"
 print(user_data_location)
@@ -28,3 +35,12 @@ def write_to_new_file(content: str):
     with open(new_file_path, "w") as file:
         file.write(content)
     return new_file_name
+
+@contextlib.contextmanager
+def get_weaviate_client():
+    client = weaviate.connect_to_local(host=WEAVIATE_HOST)
+
+    try:
+        yield client
+    finally:
+        client.close()

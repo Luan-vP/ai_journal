@@ -14,9 +14,10 @@ dependencies = [
     "fastapi>=0.110.1",
     "uvicorn>=0.29.0",
     "pre-commit>=3.7.0",
-    "dspy-ai>=2.4.5",
     "weaviate-client==4.6.3",
     "rag-router",
+    "dspy-ai[weaviate]>=2.5.12",
+    "pip>=24.2",
 ]
 
 [build-system]
