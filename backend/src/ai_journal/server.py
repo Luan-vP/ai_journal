@@ -1,7 +1,6 @@
 import os
 from logging import DEBUG, Logger
 
-import dspy
 import fastapi
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -27,16 +26,6 @@ app.include_router(router)
 
 # Setup weaviate host for docker
 os.environ["WEAVIATE_HOST"] = "weaviate"
-
-USE_OLLAMA = os.getenv("USE_OLLAMA", False)
-
-if USE_OLLAMA in ["True", "true", "1"]:
-    lm = dspy.OllamaLocal(
-        model="llama3", base_url="http://localhost:11434"
-    )
-else:
-    lm = dspy.OpenAI("gpt-3.5-turbo")
-dspy.settings.configure(lm=lm)
 
 
 @app.get("/")
