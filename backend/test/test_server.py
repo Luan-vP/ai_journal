@@ -28,6 +28,7 @@ def test_get_post_writing_analysis(text_input, mocker):
         "ai_journal.therapy.generate_post_writing_analysis",
         return_value=mocked_return_value,
     )
+    mocker.patch("ai_journal.storage.write_to_new_file")
 
     response = client.post("/post_writing_analysis", json={"text_input": text_input})
 
@@ -36,6 +37,7 @@ def test_get_post_writing_analysis(text_input, mocker):
     ai_journal.therapy.generate_post_writing_analysis.assert_called_once_with(
         text_input
     )
+    ai_journal.storage.write_to_new_file.assert_called_once()
 
 
 @pytest.mark.parametrize("text_input", ["This is a test input"])
