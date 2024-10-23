@@ -16,7 +16,7 @@ collection = client.collections.create(
         Configure.NamedVectors.text2vec_ollama(
             name="title_vector",
             source_properties=["title"],
-            api_endpoint="http://host.docker.internal:11434",  # If using Docker, use this to contact your local Ollama instance
+            api_endpoint="http://localhost:11434",
             model="llama3:8b",  # The model to use, e.g. "nomic-embed-text"
         )
     ],
@@ -54,9 +54,9 @@ def read_and_chunk_files(main_folder_path):
             journal_chunks.extend(sentence_chunks)
     return journal_chunks
 
-if __name__ == "__main__":
 
-    data_location = Path('/app/user_data').resolve()
+if __name__ == "__main__":
+    data_location = Path("/app/user_data").resolve()
 
     # Example usage
     journal_chunks = read_and_chunk_files(data_location)
@@ -64,7 +64,6 @@ if __name__ == "__main__":
     len(journal_chunks)
 
     journal_chunks[0]
-
 
     journal = client.collections.get("WeaviateJournalChunk")
 

@@ -1,7 +1,6 @@
 import os
 from logging import DEBUG, Logger
 
-import dspy
 import fastapi
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
@@ -22,21 +21,11 @@ app.add_middleware(
     allow_headers=["*"],  # Allows all headers
 )
 
-# Setup weaviate host for docker
-os.environ["WEAVIATE_HOST"] = "weaviate"
-
 # Adds the /generative_search endpoint
 app.include_router(router)
 
-USE_OLLAMA = os.getenv("USE_OLLAMA", False)
-
-if USE_OLLAMA in ["True", "true", "1"]:
-    lm = dspy.OllamaLocal(
-        model="llama3", base_url="http://host.docker.internal:11434"
-    )
-else:
-    lm = dspy.OpenAI("gpt-3.5-turbo")
-dspy.settings.configure(lm=lm)
+# Setup weaviate host for docker
+os.environ["WEAVIATE_HOST"] = "weaviate"
 
 
 @app.get("/")

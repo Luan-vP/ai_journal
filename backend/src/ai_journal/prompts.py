@@ -1,7 +1,7 @@
 import dspy
+from .lm import lm
 
-turbo = dspy.OpenAI("gpt-3.5-turbo")
-dspy.settings.configure(lm=turbo)
+dspy.settings.configure(lm=lm)
 
 # The flow is as follows:
 # Recieve an insight from the frontend
