@@ -5,8 +5,11 @@ import dspy.retrieve
 from dspy.retrieve.weaviate_rm import WeaviateRM
 
 from .storage import get_weaviate_client, WEAVIATE_COLLECTION_NAME
+from .lm import lm
 
 logger = logging.getLogger(__name__)
+
+dspy.configure(lm=lm)
 
 # TODO unpack these here to uncouple the frontend unpacking from the variable names
 create_prompt = dspy.Predict("therapy_topic -> effective_journalling_prompt")
@@ -45,9 +48,9 @@ def retrieve_from_weaviate():
         return concat_results
     
 class JournalAnalyzer(dspy.Module):
-    def __init__(self, k, weaviate_client = None):
+    def __init__(self, k, weaviate_client):
         self.k =  k  # The number of past journal entries to retrieve
-        self.weaviate_client = weaviate_client if weaviate_client else get_weaviate_client()
+        self.weaviate_client = weaviate_client
         
         self.retriever_model = WeaviateRM(
             weaviate_collection_name=WEAVIATE_COLLECTION_NAME,

@@ -16,7 +16,7 @@ collection = client.collections.create(
         Configure.NamedVectors.text2vec_ollama(
             name="title_vector",
             source_properties=["title"],
-            api_endpoint="http://host.docker.internal:11434",  # If using Docker, use this to contact your local Ollama instance
+            api_endpoint="http://localhost:11434",
             model="llama3:8b",  # The model to use, e.g. "nomic-embed-text"
         )
     ],

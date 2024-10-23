@@ -10,7 +10,6 @@ def test_upload_text_to_weaviate_collection(test_weaviate_client):
     response = collection.query.near_text(
         query="any random query",
         limit=10,
-        # return_metadata=MetadataQuery(distance=True)
     )
 
     assert len(response.objects) == 0
@@ -20,7 +19,6 @@ def test_upload_text_to_weaviate_collection(test_weaviate_client):
     response = collection.query.near_text(
         query="any random query",
         limit=10,
-        # return_metadata=MetadataQuery(distance=True)
     )
 
     assert len(response.objects) == 1
@@ -30,7 +28,6 @@ def test_upload_text_to_weaviate_collection(test_weaviate_client):
     response = collection.query.near_text(
         query="any random query",
         limit=10,
-        # return_metadata=MetadataQuery(distance=True)
     )
 
     assert len(response.objects) == 2

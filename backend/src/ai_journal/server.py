@@ -32,7 +32,7 @@ USE_OLLAMA = os.getenv("USE_OLLAMA", False)
 
 if USE_OLLAMA in ["True", "true", "1"]:
     lm = dspy.OllamaLocal(
-        model="llama3", base_url="http://host.docker.internal:11434"
+        model="llama3", base_url="http://localhost:11434"
     )
 else:
     lm = dspy.OpenAI("gpt-3.5-turbo")

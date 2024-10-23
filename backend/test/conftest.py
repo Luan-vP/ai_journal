@@ -6,7 +6,7 @@ from weaviate.classes.config import Configure
 
 from ai_journal.storage import WEAVIATE_COLLECTION_NAME
 
-@pytest.fixture(scope="module")
+@pytest.fixture(scope="function")
 def test_weaviate_client():
     # Instantiate the embedded Weaviate client and pass the OpenAI API key
     # TODO why is this going to the docker version?
@@ -31,7 +31,7 @@ def test_weaviate_client():
             )
         ],
         generative_config=Configure.Generative.ollama(
-            api_endpoint="http://host.docker.internal:11434"
+            api_endpoint="http://localhost:11434"
         ),
         properties=[
             wvcc.Property(name="content", data_type=wvcc.DataType.TEXT),
