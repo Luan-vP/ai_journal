@@ -4,6 +4,9 @@ import uuid
 from pathlib import Path
 
 import weaviate
+from weaviate import WeaviateClient
+import weaviate.classes.config as wvcc
+from weaviate.classes.config import Configure
 
 WEAVIATE_COLLECTION_NAME = (
     os.getenv("WEAVIATE_COLLECTION_NAME") or "WeaviateJournalChunks"
@@ -46,6 +49,27 @@ def get_weaviate_client():
         yield client
     finally:
         client.close()
+
+
+def create_default_collection(weaviate_client: WeaviateClient):
+    weaviate_client.collections.create(
+        name=WEAVIATE_COLLECTION_NAME,
+        vectorizer_config=[
+            Configure.NamedVectors.text2vec_ollama(
+                name="title_vector",
+                source_properties=["title"],
+                api_endpoint="http://localhost:11434",  # TODO switch this to docker with a startup scripts
+                model="llama3:8b",
+            )
+        ],
+        generative_config=Configure.Generative.ollama(
+            api_endpoint="http://localhost:11434"
+        ),
+        properties=[
+            wvcc.Property(name="content", data_type=wvcc.DataType.TEXT),
+            wvcc.Property(name="author", data_type=wvcc.DataType.TEXT),
+        ],
+    )
 
 
 def upload_text_to_weaviate_collection(

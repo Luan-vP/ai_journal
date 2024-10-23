@@ -1,10 +1,8 @@
 import pytest
 
 import weaviate
-import weaviate.classes.config as wvcc
-from weaviate.classes.config import Configure
 
-from ai_journal.storage import WEAVIATE_COLLECTION_NAME
+from ai_journal.storage import create_default_collection
 
 
 @pytest.fixture(scope="function")
@@ -21,24 +19,7 @@ def test_weaviate_client():
 
     try:
         client.collections.delete_all()
-        client.collections.create(
-            name=WEAVIATE_COLLECTION_NAME,
-            vectorizer_config=[
-                Configure.NamedVectors.text2vec_ollama(
-                    name="title_vector",
-                    source_properties=["title"],
-                    api_endpoint="http://localhost:11434",  # TODO switch this to docker with a startup scripts
-                    model="llama3:8b",
-                )
-            ],
-            generative_config=Configure.Generative.ollama(
-                api_endpoint="http://localhost:11434"
-            ),
-            properties=[
-                wvcc.Property(name="content", data_type=wvcc.DataType.TEXT),
-                wvcc.Property(name="author", data_type=wvcc.DataType.TEXT),
-            ],
-        )
+        create_default_collection(client)
         yield client
     finally:
         client.close()
